@@ -31,8 +31,10 @@ const verifyClient: RequestHandler = async (req, res) => {
                     const verified = 'true';
                     const client = await Client.save(phone_number, client_name, verified, selfie_image);
                     const clientParsed = JSON.parse(JSON.stringify(client[0]));
+                    console.log(clientParsed);
                     const token = generateJWT({ id: clientParsed.id });
-                    return res.json({
+                    console.log(token);
+                    res.json({
                         logged: true,
                         token,
                         user: {

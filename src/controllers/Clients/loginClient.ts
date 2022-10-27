@@ -27,8 +27,8 @@ const loginClient: RequestHandler = async (req, res) => {
                     })
                     .then((verification) => {
                         console.log(verification);
-                        return res.json({
-                            data: [verification],
+                        res.json({
+                            data: 'Verification message sent!',
                             success: true,
                         });
                     });
