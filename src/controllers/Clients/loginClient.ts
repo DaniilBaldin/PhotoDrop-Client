@@ -1,25 +1,51 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RequestHandler } from 'express';
+import twilio from 'twilio';
 
 import Client from '../../models/clients';
 import generateJWT from '../../utils/generateJWT';
+// import generateJWT from '../../utils/generateJWT';
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const serviceSid = process.env.TWILIO_SERVICE_SID as any;
+
+const client = twilio(accountSid, authToken);
 
 const loginClient: RequestHandler = async (req, res) => {
     try {
-        // const { login, password } = req.body;
-        // const result = await Admin.find(login, password);
-        // const person = JSON.parse(JSON.stringify(result[0]));
-        // if (person[0] === undefined) {
-        //     return res.status(404).json({ logged: false, message: 'User not found. Invalid Login or Password.' });
-        // }
-        // const token = generateJWT({ id: person[0].id });
-        // return res.json({
-        //     logged: true,
-        //     token,
-        //     user: {
-        //         person_id: person[0].id,
-        //         login: person[0].user,
-        //     },
-        // });
+        const phone_number = req.body.phone_number;
+        Client.getClientByNumber(phone_number).then((result) => {
+            const resultParsed = JSON.parse(JSON.stringify(result[0]));
+            console.log(resultParsed);
+            if (!resultParsed.length) {
+                client.verify.v2
+                    .services(serviceSid)
+                    .verifications.create({
+                        to: phone_number,
+                        channel: 'sms',
+                    })
+                    .then((verification) => {
+                        console.log(verification);
+                        return res.json({
+                            data: [verification],
+                            success: true,
+                        });
+                    });
+            } else {
+                console.log('User exists!');
+                const id = resultParsed.id;
+                const token = generateJWT({ id: id });
+                return res.json({
+                    logged: true,
+                    token,
+                    user: {
+                        person_id: id,
+                        phone_number: phone_number,
+                    },
+                });
+            }
+        });
     } catch (err) {
         res.json({
             error: {
