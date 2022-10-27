@@ -34,7 +34,8 @@ const loginClient: RequestHandler = async (req, res) => {
                     });
             } else {
                 console.log('User exists!');
-                const id = resultParsed.id;
+                const id = resultParsed[0].id;
+                console.log(id);
                 const token = generateJWT({ id: id });
                 return res.json({
                     logged: true,
