@@ -72,6 +72,14 @@ const verifyClient: RequestHandler = async (req, res) => {
                         success: false,
                     });
                 }
+            })
+            .catch((err) => {
+                res.json({
+                    error: {
+                        message: (err as Error).message,
+                    },
+                    success: false,
+                });
             });
     } catch (err) {
         return res.json({
