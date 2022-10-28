@@ -29,6 +29,14 @@ const loginClient: RequestHandler = async (req, res) => {
                     data: 'Verification message sent!',
                     success: true,
                 });
+            })
+            .catch((err) => {
+                res.json({
+                    error: {
+                        message: (err as Error).message,
+                    },
+                    success: false,
+                });
             });
         // Client.getClientByNumber(phone_number).then((result) => {
         //     const resultParsed = JSON.parse(JSON.stringify(result[0]));
