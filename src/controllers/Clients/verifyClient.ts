@@ -32,10 +32,11 @@ const verifyClient: RequestHandler = async (req, res) => {
                     const verified = 'true';
                     Client.getClientByNumber(phone_number).then(async (result) => {
                         const resultParsed = JSON.parse(JSON.stringify(result[0]));
-                        console.log(resultParsed);
+                        // console.log(resultParsed);
                         if (!resultParsed.length) {
                             const client = await Client.save(phone_number, client_name, verified, selfie_image);
                             const clientParsed = JSON.parse(JSON.stringify(client[0]));
+                            console.log(clientParsed);
                             const id = clientParsed[0].insertId;
                             console.log(id);
                             const token = generateJWT({ id: id });
@@ -49,7 +50,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                                 },
                             });
                         } else {
-                            const id = resultParsed.id;
+                            const id = resultParsed[0].id;
                             console.log(id);
                             const token = generateJWT({ id: id });
                             console.log(token);
