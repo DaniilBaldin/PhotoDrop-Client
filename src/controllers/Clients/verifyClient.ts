@@ -32,7 +32,6 @@ const verifyClient: RequestHandler = async (req, res) => {
                     const verified = 'true';
                     Client.getClientByNumber(phone_number).then(async (result) => {
                         const resultParsed = JSON.parse(JSON.stringify(result[0]));
-                        // console.log(resultParsed);
                         if (!resultParsed.length) {
                             const client = await Client.save(phone_number, client_name, verified, selfie_image);
                             const clientParsed = JSON.parse(JSON.stringify(client[0]));
@@ -42,11 +41,14 @@ const verifyClient: RequestHandler = async (req, res) => {
                             const token = generateJWT({ id: id });
                             console.log(token);
                             res.status(201).json({
-                                logged: true,
-                                token,
-                                user: {
-                                    person_id: id,
-                                    phone_number: phone_number,
+                                success: true,
+                                data: {
+                                    newUser: true,
+                                    token: token,
+                                    user: {
+                                        person_id: id,
+                                        phone_number: phone_number,
+                                    },
                                 },
                             });
                         } else {
@@ -55,11 +57,14 @@ const verifyClient: RequestHandler = async (req, res) => {
                             const token = generateJWT({ id: id });
                             console.log(token);
                             res.status(200).json({
-                                logged: true,
-                                token,
-                                user: {
-                                    person_id: id,
-                                    phone_number: phone_number,
+                                success: true,
+                                data: {
+                                    newUser: false,
+                                    token: token,
+                                    user: {
+                                        person_id: id,
+                                        phone_number: phone_number,
+                                    },
                                 },
                             });
                         }
