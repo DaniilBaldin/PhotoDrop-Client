@@ -30,18 +30,38 @@ const verifyClient: RequestHandler = async (req, res) => {
                 console.log(verification_check);
                 if (verification_check.valid === true) {
                     const verified = 'true';
-                    const client = await Client.save(phone_number, client_name, verified, selfie_image);
-                    const clientParsed = JSON.parse(JSON.stringify(client[0]));
-                    console.log(clientParsed);
-                    const token = generateJWT({ id: clientParsed.insertId });
-                    console.log(token);
-                    res.status(201).json({
-                        logged: true,
-                        token,
-                        user: {
-                            person_id: clientParsed.insertId,
-                            phone_number: phone_number,
-                        },
+                    Client.getClientByNumber(phone_number).then(async (result) => {
+                        const resultParsed = JSON.parse(JSON.stringify(result[0]));
+                        console.log(resultParsed);
+                        if (!resultParsed.length) {
+                            const client = await Client.save(phone_number, client_name, verified, selfie_image);
+                            const clientParsed = JSON.parse(JSON.stringify(client[0]));
+                            const id = clientParsed[0].insertId;
+                            console.log(id);
+                            const token = generateJWT({ id: id });
+                            console.log(token);
+                            res.status(201).json({
+                                logged: true,
+                                token,
+                                user: {
+                                    person_id: id,
+                                    phone_number: phone_number,
+                                },
+                            });
+                        } else {
+                            const id = resultParsed.id;
+                            console.log(id);
+                            const token = generateJWT({ id: id });
+                            console.log(token);
+                            res.status(201).json({
+                                logged: true,
+                                token,
+                                user: {
+                                    person_id: id,
+                                    phone_number: phone_number,
+                                },
+                            });
+                        }
                     });
                 } else {
                     console.log('Code is not valid!');

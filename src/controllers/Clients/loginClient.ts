@@ -15,38 +15,51 @@ const client = twilio(accountSid, authToken);
 const loginClient: RequestHandler = async (req, res) => {
     try {
         const phone_number = req.body.phone_number;
-        Client.getClientByNumber(phone_number).then((result) => {
-            const resultParsed = JSON.parse(JSON.stringify(result[0]));
-            console.log(resultParsed);
-            if (!resultParsed.length) {
-                client.verify.v2
-                    .services(serviceSid)
-                    .verifications.create({
-                        to: phone_number,
-                        channel: 'sms',
-                    })
-                    .then(async (verification) => {
-                        console.log(verification);
-                        res.status(200).json({
-                            data: 'Verification message sent!',
-                            success: true,
-                        });
-                    });
-            } else {
-                console.log('User exists!');
-                const id = resultParsed[0].id;
-                console.log(id);
-                const token = generateJWT({ id: id });
-                return res.status(201).json({
-                    logged: true,
-                    token,
-                    user: {
-                        person_id: id,
-                        phone_number: phone_number,
-                    },
+        client.verify.v2
+            .services(serviceSid)
+            .verifications.create({
+                to: phone_number,
+                channel: 'sms',
+            })
+            .then(async (verification) => {
+                console.log(verification);
+                res.status(200).json({
+                    data: 'Verification message sent!',
+                    success: true,
                 });
-            }
-        });
+            });
+        // Client.getClientByNumber(phone_number).then((result) => {
+        //     const resultParsed = JSON.parse(JSON.stringify(result[0]));
+        //     console.log(resultParsed);
+        //     if (!resultParsed.length) {
+        //         client.verify.v2
+        //             .services(serviceSid)
+        //             .verifications.create({
+        //                 to: phone_number,
+        //                 channel: 'sms',
+        //             })
+        //             .then(async (verification) => {
+        //                 console.log(verification);
+        //                 res.status(200).json({
+        //                     data: 'Verification message sent!',
+        //                     success: true,
+        //                 });
+        //             });
+        //     } else {
+        //         console.log('User exists!');
+        //         const id = resultParsed[0].id;
+        //         console.log(id);
+        //         const token = generateJWT({ id: id });
+        //         return res.status(201).json({
+        //             logged: true,
+        //             token,
+        //             user: {
+        //                 person_id: id,
+        //                 phone_number: phone_number,
+        //             },
+        //         });
+        //     }
+        // });
     } catch (err) {
         res.json({
             error: {
