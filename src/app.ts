@@ -14,7 +14,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(function (req, res, next) {
-    res.setTimeout(2000);
+    res.setTimeout(999);
     next();
 });
 
