@@ -13,7 +13,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(function (req, res, next) {
-    res.setTimeout(200);
+    res.setTimeout(500);
     next();
 });
 
