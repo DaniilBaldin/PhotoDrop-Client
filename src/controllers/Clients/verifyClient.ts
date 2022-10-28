@@ -27,6 +27,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                 code: code,
             })
             .then(async (verification_check) => {
+                console.log(verification_check);
                 if (verification_check.valid === true) {
                     const verified = 'true';
                     const client = await Client.save(phone_number, client_name, verified, selfie_image);
