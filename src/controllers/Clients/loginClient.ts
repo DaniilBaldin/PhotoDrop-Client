@@ -2,8 +2,7 @@
 import { RequestHandler } from 'express';
 import twilio from 'twilio';
 
-import Client from '../../models/clients';
-import generateJWT from '../../utils/generateJWT';
+// import Client from '../../models/clients';
 // import generateJWT from '../../utils/generateJWT';
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -14,6 +13,7 @@ const client = twilio(accountSid, authToken);
 
 const loginClient: RequestHandler = async (req, res) => {
     try {
+        // console.log(res);
         const phone_number = req.body.phone_number;
         client.verify.v2
             .services(serviceSid)
@@ -22,6 +22,8 @@ const loginClient: RequestHandler = async (req, res) => {
                 channel: 'sms',
             })
             .then(async (verification) => {
+                console.log(res);
+
                 console.log(verification);
                 res.status(200).json({
                     data: 'Verification message sent!',
