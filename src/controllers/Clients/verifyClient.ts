@@ -34,7 +34,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                     console.log(clientParsed);
                     const token = generateJWT({ id: clientParsed.insertId });
                     console.log(token);
-                    res.json({
+                    res.status(201).json({
                         logged: true,
                         token,
                         user: {

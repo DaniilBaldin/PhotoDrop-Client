@@ -25,9 +25,9 @@ const loginClient: RequestHandler = async (req, res) => {
                         to: phone_number,
                         channel: 'sms',
                     })
-                    .then((verification) => {
+                    .then(async (verification) => {
                         console.log(verification);
-                        res.json({
+                        res.status(200).json({
                             data: 'Verification message sent!',
                             success: true,
                         });
@@ -37,7 +37,7 @@ const loginClient: RequestHandler = async (req, res) => {
                 const id = resultParsed[0].id;
                 console.log(id);
                 const token = generateJWT({ id: id });
-                return res.json({
+                return res.status(201).json({
                     logged: true,
                     token,
                     user: {
