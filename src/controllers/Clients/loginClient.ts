@@ -22,8 +22,6 @@ const loginClient: RequestHandler = async (req, res) => {
                 channel: 'sms',
             })
             .then(async (verification) => {
-                console.log(res);
-
                 console.log(verification);
                 res.status(200).json({
                     data: 'Verification message sent!',
