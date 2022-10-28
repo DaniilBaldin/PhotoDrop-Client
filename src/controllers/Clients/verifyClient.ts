@@ -53,7 +53,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                             console.log(id);
                             const token = generateJWT({ id: id });
                             console.log(token);
-                            res.status(201).json({
+                            res.status(200).json({
                                 logged: true,
                                 token,
                                 user: {
@@ -65,7 +65,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                     });
                 } else {
                     console.log('Code is not valid!');
-                    return res.json({
+                    return res.status(503).json({
                         error: {
                             message: 'Code is not valid!',
                         },
@@ -74,7 +74,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                 }
             })
             .catch((err) => {
-                res.json({
+                res.status(503).json({
                     error: {
                         message: (err as Error).message,
                     },
@@ -82,7 +82,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                 });
             });
     } catch (err) {
-        return res.json({
+        return res.status(503).json({
             error: {
                 message: (err as Error).message,
             },

@@ -31,7 +31,7 @@ const loginClient: RequestHandler = async (req, res) => {
                 });
             })
             .catch((err) => {
-                res.json({
+                res.status(503).json({
                     error: {
                         message: (err as Error).message,
                     },
