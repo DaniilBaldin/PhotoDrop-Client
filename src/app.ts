@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 
 import clientRouter from './routes/clientRoutes';
 import albumsRouter from './routes/albumsRoutes';
+import photoRouter from './routes/photoRoutes';
 
 const PORT = process.env.PORT || 4000;
 
@@ -41,7 +42,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(express.json());
-app.use('/', clientRouter, albumsRouter);
+app.use('/', clientRouter, albumsRouter, photoRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

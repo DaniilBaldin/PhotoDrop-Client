@@ -17,8 +17,8 @@ const verifyClient: RequestHandler = async (req, res) => {
     try {
         const phone_number = req.body.phone_number;
         const code = req.body.code;
-        const client_name = phone_number;
-        const selfie_image = 'default';
+        const client_name = '';
+        const selfie_image = '';
         console.log(req.body);
         client.verify.v2
             .services(serviceSid)

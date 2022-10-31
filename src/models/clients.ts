@@ -41,6 +41,14 @@ const client = class Client {
     static getClientById(id: string) {
         return db.execute(`SELECT * FROM clients WHERE clients.id = ?`, [id]);
     }
+
+    static updateSelfie(selfie_image: string, id: string) {
+        return db.execute(`UPDATE clients SET clients.selfie_image = ? WHERE clients.id = ?`, [selfie_image, id]);
+    }
+
+    static updateClientName(client_name: string, id: string) {
+        return db.execute(`UPDATE clients SET clients.client_name = ? WHERE clients.id = ?`, [client_name, id]);
+    }
 };
 
 export default client;

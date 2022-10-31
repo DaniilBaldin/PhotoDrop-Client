@@ -4,16 +4,16 @@ import { Response } from 'express';
 import InfoRequest from '../../interface/albumsInterface';
 
 import Client from '../../models/clients';
-import uploader from '../../services/uploader';
 
-const setSelfie = async (req: InfoRequest, res: Response) => {
+const setClientName = async (req: InfoRequest, res: Response) => {
     try {
         const person_id = req.person.id;
-        const files = req.files;
-        await uploader(files, person_id);
-        Client.getClientById(person_id).then((result) => {
+        const client_name = req.body.client_name;
+        console.log(person_id, client_name);
+        await Client.updateClientName(client_name, person_id).then(async () => {
+            const person = await Client.getClientById(person_id);
             res.status(200).json({
-                data: result[0],
+                data: person[0],
                 success: true,
             });
         });
@@ -27,4 +27,4 @@ const setSelfie = async (req: InfoRequest, res: Response) => {
     }
 };
 
-export default setSelfie;
+export default setClientName;
