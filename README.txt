@@ -15,7 +15,11 @@ Client side of service for exchange photos between photographer and client, base
 
 // method: POST - https://photodrop-app-client.herokuapp.com/selfie - Sets users selfie image and uploads to AWS S3. User must be authorized.
 
-// method: POST - https://photodrop-app-client.herokuapp.com/name - Change users name. User must be authorized.
+// method: POST - https://photodrop-app-client.herokuapp.com/name - Change users name. User must be authorized. Req body:
+{
+    "client_name": "Daniel"
+}
+
 
 // method: GET - https://photodrop-app-client.herokuapp.com/client - Gets user data(Name, selfie image, phone number). User must be authorized.
 
