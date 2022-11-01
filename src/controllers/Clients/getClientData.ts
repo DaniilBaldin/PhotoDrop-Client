@@ -2,7 +2,6 @@
 import { Response } from 'express';
 
 import Client from '../../models/clients';
-import Photo from '../../models/photo';
 
 import InfoRequest from '../../interface/albumsInterface';
 
