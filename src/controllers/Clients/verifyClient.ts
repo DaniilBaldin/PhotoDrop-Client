@@ -33,7 +33,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                     Client.getClientByNumber(phone_number).then(async (result) => {
                         const resultParsed = JSON.parse(JSON.stringify(result[0]));
                         if (!resultParsed.length) {
-                            const client = await Client.save(phone_number, client_name, verified, selfie_image);
+                            const client = await Client.save(client_name, phone_number, verified, selfie_image);
                             const clientParsed = JSON.parse(JSON.stringify(client[0]));
                             console.log(clientParsed);
                             const id = clientParsed.insertId;
