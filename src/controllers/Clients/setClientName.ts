@@ -12,8 +12,9 @@ const setClientName = async (req: InfoRequest, res: Response) => {
         console.log(person_id, client_name);
         await Client.updateClientName(client_name, person_id).then(async () => {
             const person = await Client.getClientById(person_id);
+            const personParsed = JSON.parse(JSON.stringify(person[0]));
             res.status(200).json({
-                data: person[0],
+                data: personParsed[0],
                 success: true,
             });
         });
