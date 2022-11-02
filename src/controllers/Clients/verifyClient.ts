@@ -17,8 +17,6 @@ const verifyClient: RequestHandler = async (req, res) => {
     try {
         const phone_number = req.body.phone_number;
         const code = req.body.code;
-        const client_name = '';
-        const selfie_image = '';
         console.log(req.body);
         client.verify.v2
             .services(serviceSid)
@@ -34,6 +32,8 @@ const verifyClient: RequestHandler = async (req, res) => {
                         const resultParsed = JSON.parse(JSON.stringify(result[0]));
                         console.log(resultParsed[0]);
                         if (!resultParsed.length) {
+                            const client_name = '';
+                            const selfie_image = '';
                             const client = await Client.save(client_name, phone_number, verified, selfie_image);
                             const clientParsed = JSON.parse(JSON.stringify(client[0]));
                             console.log(clientParsed);
@@ -49,6 +49,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                                     user: {
                                         person_id: id,
                                         phone_number: phone_number,
+                                        selfie_image: selfie_image,
                                     },
                                 },
                             });
