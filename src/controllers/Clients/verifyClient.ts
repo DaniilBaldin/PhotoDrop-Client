@@ -32,6 +32,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                     const verified = 'true';
                     Client.getClientByNumber(phone_number).then(async (result) => {
                         const resultParsed = JSON.parse(JSON.stringify(result[0]));
+                        console.log(resultParsed[0]);
                         if (!resultParsed.length) {
                             const client = await Client.save(client_name, phone_number, verified, selfie_image);
                             const clientParsed = JSON.parse(JSON.stringify(client[0]));
@@ -54,6 +55,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                         } else {
                             const id = resultParsed[0].id;
                             console.log(id);
+                            const selfie_image = resultParsed[0].selfie_image;
                             const token = generateJWT({ id: id });
                             console.log(token);
                             res.status(200).json({
@@ -64,6 +66,7 @@ const verifyClient: RequestHandler = async (req, res) => {
                                     user: {
                                         person_id: id,
                                         phone_number: phone_number,
+                                        selfie_image: selfie_image,
                                     },
                                 },
                             });
