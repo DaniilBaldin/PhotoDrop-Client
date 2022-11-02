@@ -3,7 +3,6 @@ import AWS from 'aws-sdk';
 import dotenv from 'dotenv';
 dotenv.config();
 import crypto from 'crypto';
-import makeThumbnail from 'image-thumbnail';
 
 import Selfie from '../models/selfies';
 
@@ -18,17 +17,13 @@ AWS.config.update(credentials);
 const s3 = new AWS.S3();
 
 const uploader = async (files: any, person_id: any) => {
-    const options: any = {
-        percentage: 25,
-    };
     const buffer = files[0].buffer;
-    const selfie_buffer = await makeThumbnail(new (Buffer.from as any)(buffer), options);
     const type = files[0].originalname.split('.')[1];
     const key = `upload/${crypto.randomUUID()}.${type}`;
     const params = {
         ContentType: files[0].mimetype,
         Bucket: BUCKET,
-        Body: selfie_buffer,
+        Body: buffer,
         Key: key,
     };
     s3.putObject(params as any).promise();
