@@ -43,6 +43,7 @@
         "mysql2": "^2.3.3",
         "stripe": "^10.15.0",
         "twilio": "^3.83.0",
-        "typescript": "^4.8.4"
+        "typescript": "^4.8.4",
+        "watermark-image": "^1.0.6"
     }
 }

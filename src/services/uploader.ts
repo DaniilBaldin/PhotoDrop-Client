@@ -5,7 +5,7 @@ dotenv.config();
 import crypto from 'crypto';
 import makeThumbnail from 'image-thumbnail';
 
-import Client from '../models/clients';
+import Selfie from '../models/selfies';
 
 const BUCKET = process.env.S3_BUCKET;
 
@@ -18,7 +18,6 @@ AWS.config.update(credentials);
 const s3 = new AWS.S3();
 
 const uploader = async (files: any, person_id: any) => {
-    console.log(files);
     const options: any = {
         percentage: 25,
     };
@@ -35,7 +34,7 @@ const uploader = async (files: any, person_id: any) => {
     s3.putObject(params as any).promise();
     const selfie_url = `https://${BUCKET}.s3.amazonaws.com/${params.Key}`;
     const id = person_id;
-    await Client.updateSelfie(selfie_url, id);
+    await Selfie.save(selfie_url, id);
 };
 
 export default uploader;
