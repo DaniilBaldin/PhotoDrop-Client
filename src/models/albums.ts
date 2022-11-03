@@ -5,14 +5,14 @@ const albums = class Albums {
     album_name: string;
     album_location: string;
     date: string;
-    person_id: number;
+    person_id: string;
     album_logo: string;
     constructor(
         id: number,
         album_name: string,
         album_location: string,
         date: string,
-        person_id: number,
+        person_id: string,
         album_logo: string
     ) {
         this.id = id;
@@ -23,8 +23,12 @@ const albums = class Albums {
         this.album_logo = album_logo;
     }
 
-    static getAlbums(id: number) {
+    static getAlbums(id: string) {
         return db.execute(`SELECT * FROM albums WHERE albums.id = ?`, [id]);
+    }
+
+    static getAlbumById(id: string, person_id: string) {
+        return db.execute(`SELECT * FROM albums WHERE albums.id = ? AND albums.person_id = ?`, [id, person_id]);
     }
 };
 
