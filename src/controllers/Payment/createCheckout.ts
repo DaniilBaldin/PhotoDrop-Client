@@ -1,11 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import stripe from 'stripe';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const stripe_key = process.env.STRIPE_SECRET_KEY as any;
+
+import Stripe from 'stripe';
+const stripe = new Stripe(stripe_key, {
+    apiVersion: '2022-08-01',
+});
 
 import { RequestHandler } from 'express';
 
 const createCheckout: RequestHandler = async (req, res) => {
     try {
-        const session = await (stripe as any).checkout.sessions.create({
+        console.log(req);
+        const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
             line_items: [
@@ -13,21 +22,11 @@ const createCheckout: RequestHandler = async (req, res) => {
                     price_data: {
                         currency: 'usd',
                         product_data: {
-                            name: 'Item 1',
+                            name: 'Album',
                         },
-                        unit_amount: 20000,
+                        unit_amount: 500,
                     },
-                    quantity: 2,
-                },
-                {
-                    price_data: {
-                        currency: 'usd',
-                        product_data: {
-                            name: 'Item 2',
-                        },
-                        unit_amount: 50000,
-                    },
-                    quantity: 10,
+                    quantity: 1,
                 },
             ],
             success_url: 'http://localhost:5173/photos',
