@@ -13,13 +13,21 @@ const authMiddleware: RequestHandler = (req: any, res, next) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
         if (!token) {
-            return res.status(401).json({ message: 'Auth error!' });
+            return res.status(401).json({
+                error: {
+                    message: 'Auth error!',
+                },
+                success: false,
+            });
         }
         req.person = jwt.verify(token, secretKey);
         next();
     } catch (err) {
         return res.status(401).json({
-            message: 'Auth error!',
+            error: {
+                message: 'Auth error!',
+            },
+            success: false,
         });
     }
 };

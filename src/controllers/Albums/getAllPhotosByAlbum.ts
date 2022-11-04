@@ -3,6 +3,7 @@ import { Response } from 'express';
 
 import Client from '../../models/clients';
 import Photo from '../../models/photo';
+import Album from '../../models/albums';
 
 import InfoRequest from '../../interface/albumsInterface';
 
@@ -10,6 +11,7 @@ const getPhotosByAlbum = async (req: InfoRequest, res: Response) => {
     try {
         const person_id = req.person.id;
         const album_id = req.params.id;
+        const albumInfo = await Album.getAlbums(album_id);
         Client.getClientById(person_id).then(async (result) => {
             const resultParsed = JSON.parse(JSON.stringify(result[0]));
             const phone_number = resultParsed[0].phone_number;
@@ -17,7 +19,10 @@ const getPhotosByAlbum = async (req: InfoRequest, res: Response) => {
                 const resultParsed = JSON.parse(JSON.stringify(result[0]));
                 console.log(resultParsed);
                 res.status(200).json({
-                    data: resultParsed,
+                    data: {
+                        album: albumInfo[0],
+                        photos: resultParsed,
+                    },
                     success: true,
                 });
             });
