@@ -16,6 +16,7 @@ import InfoRequest from '../../interface/albumsInterface';
 const createCheckout = async (req: InfoRequest, res: Response) => {
     try {
         const protocol = req.protocol;
+        console.log(protocol);
         const session: any = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
