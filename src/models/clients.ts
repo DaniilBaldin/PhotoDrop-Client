@@ -26,10 +26,16 @@ const client = class Client {
         this.albums_owned = albums_owned;
     }
 
-    static save(client_name: string, phone_number: string, verified: string, selfie_image: string) {
+    static save(
+        client_name: string,
+        phone_number: string,
+        verified: string,
+        selfie_image: string,
+        albums_owned: string
+    ) {
         return db.execute(
-            'INSERT INTO clients (client_name, phone_number, verified, selfie_image) VALUES (?, ?, ?, ?)',
-            [client_name, phone_number, verified, selfie_image]
+            'INSERT INTO clients (client_name, phone_number, verified, selfie_image, albums_owned) VALUES (?, ?, ?, ?, ?)',
+            [client_name, phone_number, verified, selfie_image, albums_owned]
         );
     }
 
@@ -55,8 +61,8 @@ const client = class Client {
 
     static updateAlbumsOwned(albums_owned: string, id: string) {
         return db.execute(
-            `UPDATE clients SET clients.albums_owned = CONCAT_WS(CHAR(0x2C USING UTF8), ${albums_owned}, ?) WHERE clients.id = ?`,
-            [albums_owned, id]
+            `UPDATE clients SET clients.albums_owned = CONCAT_WS(CHAR(0x2C USING UTF8),clients.albums_owned, ${albums_owned}) WHERE clients.id = ?`,
+            [id]
         );
     }
 };

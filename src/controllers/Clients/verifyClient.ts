@@ -34,7 +34,14 @@ const verifyClient: RequestHandler = async (req, res) => {
                         if (!resultParsed.length) {
                             const client_name = '';
                             const selfie_image = '';
-                            const client = await Client.save(client_name, phone_number, verified, selfie_image);
+                            const albums_owned = '0';
+                            const client = await Client.save(
+                                client_name,
+                                phone_number,
+                                verified,
+                                selfie_image,
+                                albums_owned
+                            );
                             const clientParsed = JSON.parse(JSON.stringify(client[0]));
                             console.log(clientParsed);
                             const id = clientParsed.insertId;

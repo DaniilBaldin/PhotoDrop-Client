@@ -9,6 +9,8 @@ const stripe = new Stripe(stripe_key, {
     apiVersion: '2022-08-01',
 });
 
+import Client from '../../models/clients';
+
 import { Response } from 'express';
 
 import InfoRequest from '../../interface/albumsInterface';
@@ -17,9 +19,7 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
     try {
         const album_id = req.body.album_id;
         const person_id = req.person.id;
-        console.log(album_id, person_id);
-        const protocol = req.protocol;
-        console.log(protocol);
+        // const protocol = req.protocol;
         const session: any = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -38,6 +38,7 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
             success_url: `http://localhost:5173/succeed`,
             cancel_url: 'http://localhost:5173',
         });
+        await Client.updateAlbumsOwned(album_id, person_id);
         res.json({
             data: {
                 url: session.url,
