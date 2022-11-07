@@ -20,7 +20,6 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
         // console.log(req);
         const person_id = req.person.id;
         const album_id = req.body.album_id;
-        console.log(req);
         console.log(person_id, album_id);
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -37,7 +36,7 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
                     quantity: 1,
                 },
             ],
-            success_url: 'https://photographers-client.vercel.app/',
+            success_url: `https://photographers-client.vercel.app/album/${album_id}`,
             cancel_url: 'https://photographers-client.vercel.app/',
         });
         await Client.updateAlbumsOwned(album_id, person_id);
