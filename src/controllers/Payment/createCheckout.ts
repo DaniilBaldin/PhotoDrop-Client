@@ -15,6 +15,9 @@ import InfoRequest from '../../interface/albumsInterface';
 
 const createCheckout = async (req: InfoRequest, res: Response) => {
     try {
+        const album_id = req.body.album_id;
+        const person_id = req.person.id;
+        console.log(album_id, person_id);
         const protocol = req.protocol;
         console.log(protocol);
         const session: any = await stripe.checkout.sessions.create({
@@ -25,18 +28,15 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
                     price_data: {
                         currency: 'usd',
                         product_data: {
-                            name: 'Album',
+                            name: album_id,
                         },
                         unit_amount: 500,
                     },
                     quantity: 1,
                 },
             ],
-            phone_number_collection: {
-                enabled: true,
-            },
-            success_url: protocol + '://' + req.get('host'),
-            cancel_url: protocol + '://' + req.get('host'),
+            success_url: `http://localhost:5173/album/${album_id}`,
+            cancel_url: 'http://localhost:5173',
         });
         res.json({
             data: {
