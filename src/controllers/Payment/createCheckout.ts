@@ -29,7 +29,7 @@ const createCheckout: RequestHandler = async (req, res) => {
                     quantity: 1,
                 },
             ],
-            success_url: 'https://photographers-client.vercel.app/photos',
+            success_url: 'https://photographers-client.vercel.app/',
             cancel_url: 'https://photographers-client.vercel.app/',
         });
         res.json({ url: session.url });
