@@ -13,7 +13,7 @@ import { RequestHandler } from 'express';
 
 const createCheckout: RequestHandler = async (req, res) => {
     try {
-        console.log(req);
+        // console.log(req);
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -32,6 +32,7 @@ const createCheckout: RequestHandler = async (req, res) => {
             success_url: 'https://photographers-client.vercel.app/',
             cancel_url: 'https://photographers-client.vercel.app/',
         });
+        console.log(session);
         res.json({
             data: {
                 url: session.url,
