@@ -33,3 +33,11 @@ Client side of service for exchange photos between photographer and client, base
 // method: GET - https://photodrop-app-client.herokuapp.com/albums - Gets all users albums from database. User must be authorized.
 
 // method: GET - https://photodrop-app-client.herokuapp.com/album/:id - Gets album info and all photos with user by id from database. Id in request params. User must be authorized.
+
+
+                            PAYMENTS
+
+// method: POST - https://photodrop-app-client.herokuapp.com/create-checkout-session - Generate link to checkout. User must be authorized. Album id in request body:
+{
+    "album_id": "1"
+}
