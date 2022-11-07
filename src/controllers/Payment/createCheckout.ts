@@ -32,7 +32,12 @@ const createCheckout: RequestHandler = async (req, res) => {
             success_url: 'https://photographers-client.vercel.app/',
             cancel_url: 'https://photographers-client.vercel.app/',
         });
-        res.json({ url: session.url });
+        res.json({
+            data: {
+                url: session.url,
+            },
+            success: true,
+        });
     } catch (error) {
         return res.status(503).json({
             error: {
