@@ -15,6 +15,7 @@ import InfoRequest from '../../interface/albumsInterface';
 
 const createCheckout = async (req: InfoRequest, res: Response) => {
     try {
+        const protocol = req.protocol;
         const session: any = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -33,8 +34,8 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
             phone_number_collection: {
                 enabled: true,
             },
-            success_url: req.protocol + '://' + req.get('host'),
-            cancel_url: req.protocol + '://' + req.get('host'),
+            success_url: protocol + '://' + req.get('host'),
+            cancel_url: protocol + '://' + req.get('host'),
         });
         res.json({
             data: {
