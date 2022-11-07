@@ -35,7 +35,7 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
                     quantity: 1,
                 },
             ],
-            success_url: `http://localhost:5173/album/${album_id}`,
+            success_url: `http://localhost:5173`,
             cancel_url: 'http://localhost:5173',
         });
         res.json({
