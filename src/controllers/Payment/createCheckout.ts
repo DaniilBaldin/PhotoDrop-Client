@@ -32,7 +32,9 @@ const createCheckout: RequestHandler = async (req, res) => {
             success_url: 'https://photographers-client.vercel.app/',
             cancel_url: 'https://photographers-client.vercel.app/',
         });
-        console.log(session);
+        if (session.payment_status === 'paid') {
+            console.log('success!');
+        }
         res.json({
             data: {
                 url: session.url,
