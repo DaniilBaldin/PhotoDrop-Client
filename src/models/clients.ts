@@ -7,13 +7,15 @@ const client = class Client {
     admin_id: string;
     selfie_image: string;
     verified: string;
+    albums_owned: string;
     constructor(
         id: string,
         photo_logo: string,
         photo_name: string,
         admin_id: string,
         selfie_image: string,
-        verified: string
+        verified: string,
+        albums_owned: string
     ) {
         this.id = id;
         this.client_name = photo_logo;
@@ -21,6 +23,7 @@ const client = class Client {
         this.admin_id = admin_id;
         this.selfie_image = selfie_image;
         this.verified = verified;
+        this.albums_owned = albums_owned;
     }
 
     static save(client_name: string, phone_number: string, verified: string, selfie_image: string) {
@@ -48,6 +51,13 @@ const client = class Client {
 
     static updateClientName(client_name: string, id: string) {
         return db.execute(`UPDATE clients SET clients.client_name = ? WHERE clients.id = ?`, [client_name, id]);
+    }
+
+    static updateAlbumsOwned(albums_owned: string, id: string) {
+        return db.execute(`UPDATE clients SET clients.albums_owned = ${albums_owned} + ? WHERE clients.id = ?`, [
+            albums_owned,
+            id,
+        ]);
     }
 };
 

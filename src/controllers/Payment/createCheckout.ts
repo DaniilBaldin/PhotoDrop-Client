@@ -4,16 +4,22 @@ dotenv.config();
 
 const stripe_key = process.env.STRIPE_SECRET_KEY as any;
 
+import Client from '../../models/clients';
+
 import Stripe from 'stripe';
 const stripe = new Stripe(stripe_key, {
     apiVersion: '2022-08-01',
 });
 
-import { RequestHandler } from 'express';
+import { Response } from 'express';
 
-const createCheckout: RequestHandler = async (req, res) => {
+import InfoRequest from '../../interface/albumsInterface';
+
+const createCheckout = async (req: InfoRequest, res: Response) => {
     try {
         // console.log(req);
+        const person_id = req.person.id;
+        const album_id = req.body.id;
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -32,9 +38,7 @@ const createCheckout: RequestHandler = async (req, res) => {
             success_url: 'https://photographers-client.vercel.app/',
             cancel_url: 'https://photographers-client.vercel.app/',
         });
-        if (session.payment_status === 'paid') {
-            console.log('success!');
-        }
+        await Client.updateAlbumsOwned(album_id, person_id);
         res.json({
             data: {
                 url: session.url,
