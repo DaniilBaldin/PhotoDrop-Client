@@ -35,7 +35,7 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
                     quantity: 1,
                 },
             ],
-            success_url: `http://localhost:5173`,
+            success_url: `http://localhost:5173/succeed`,
             cancel_url: 'http://localhost:5173',
         });
         res.json({
