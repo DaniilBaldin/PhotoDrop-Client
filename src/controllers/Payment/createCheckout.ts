@@ -33,8 +33,8 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
             phone_number_collection: {
                 enabled: true,
             },
-            success_url: `https://photographers-client.vercel.app/`,
-            cancel_url: 'https://photographers-client.vercel.app/',
+            success_url: req.protocol + '://' + req.get('host'),
+            cancel_url: req.protocol + '://' + req.get('host'),
         });
         res.json({
             data: {
