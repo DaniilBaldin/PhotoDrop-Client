@@ -54,10 +54,10 @@ const client = class Client {
     }
 
     static updateAlbumsOwned(albums_owned: string, id: string) {
-        return db.execute(`UPDATE clients SET clients.albums_owned = ${albums_owned} + ? WHERE clients.id = ?`, [
-            albums_owned,
-            id,
-        ]);
+        return db.execute(
+            `UPDATE clients SET clients.albums_owned = CONCAT_WS(CHAR(0x2C USING UTF8), ${albums_owned}, ?) WHERE clients.id = ?`,
+            [albums_owned, id]
+        );
     }
 };
 

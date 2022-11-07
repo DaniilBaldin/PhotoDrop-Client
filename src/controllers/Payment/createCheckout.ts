@@ -19,7 +19,9 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
     try {
         // console.log(req);
         const person_id = req.person.id;
-        const album_id = req.body.id;
+        const album_id = req.body.album_id;
+        console.log(req);
+        console.log(person_id, album_id);
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
