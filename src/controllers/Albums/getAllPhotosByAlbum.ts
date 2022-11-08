@@ -1,14 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from 'express';
-import dotenv from 'dotenv';
-dotenv.config();
-
-const stripe_key = process.env.STRIPE_SECRET_KEY as any;
-
-import Stripe from 'stripe';
-const stripe = new Stripe(stripe_key, {
-    apiVersion: '2022-08-01',
-});
 
 import Client from '../../models/clients';
 import Photo from '../../models/photo';
@@ -34,7 +25,6 @@ const getPhotosByAlbum = async (req: InfoRequest, res: Response) => {
             console.log(albumInfoParsed[0]);
             await Photo.getPhotosByAlbum(album_id, phone_number).then((result) => {
                 const resultParsed = JSON.parse(JSON.stringify(result[0]));
-                // console.log(resultParsed);
                 res.status(200).json({
                     data: {
                         album: albumInfoParsed[0],

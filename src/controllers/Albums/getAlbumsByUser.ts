@@ -14,6 +14,8 @@ const getAlbumsByUser = async (req: InfoRequest, res: Response) => {
         Client.getClientById(person_id).then((result) => {
             const resultParsed = JSON.parse(JSON.stringify(result[0]));
             const phone_number = resultParsed[0].phone_number;
+            const albums_owned = resultParsed[0].albums_owned.split(',');
+            const uniqueAlbums = albums_owned.filter((x: any, i: any) => i === albums_owned.indexOf(x));
             Photo.getPhotosByNumber(phone_number).then(async (result) => {
                 const resultParsed = JSON.parse(JSON.stringify(result[0]));
                 resultParsed.forEach((e: any) => {
@@ -23,6 +25,11 @@ const getAlbumsByUser = async (req: InfoRequest, res: Response) => {
                 const albums = uniques.map(async (e) => {
                     const album = await Album.getAlbums(e);
                     const albumParsed = JSON.parse(JSON.stringify(album[0]));
+                    if (uniqueAlbums.includes(e)) {
+                        albumParsed[0].owned = true;
+                    } else {
+                        albumParsed[0].owned = false;
+                    }
                     return albumParsed[0];
                 });
                 const resultAlbums = await Promise.all(albums);
