@@ -35,7 +35,7 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
                     quantity: 1,
                 },
             ],
-            success_url: `http://localhost:5173/succeed`,
+            success_url: `http://localhost:5173/success`,
             cancel_url: 'http://localhost:5173',
         });
         await Client.updateAlbumsOwned(album_id, person_id);
