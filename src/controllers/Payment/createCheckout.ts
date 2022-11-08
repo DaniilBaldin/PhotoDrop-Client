@@ -17,6 +17,7 @@ import InfoRequest from '../../interface/albumsInterface';
 
 const createCheckout = async (req: InfoRequest, res: Response) => {
     try {
+        console.log(req.headers.host);
         const album_id = req.body.album_id;
         const person_id = req.person.id;
         // const protocol = req.protocol;
