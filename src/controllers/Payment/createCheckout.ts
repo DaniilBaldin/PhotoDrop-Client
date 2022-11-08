@@ -17,10 +17,9 @@ import InfoRequest from '../../interface/albumsInterface';
 
 const createCheckout = async (req: InfoRequest, res: Response) => {
     try {
-        console.log(req.headers.host);
+        console.log(req.headers);
         const album_id = req.body.album_id;
         const person_id = req.person.id;
-        // const protocol = req.protocol;
         const session: any = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -36,8 +35,8 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
                     quantity: 1,
                 },
             ],
-            success_url: `http://localhost:5173/success`,
-            cancel_url: 'http://localhost:5173',
+            success_url: `https://photographers-client.vercel.app/success`,
+            cancel_url: 'https://photographers-client.vercel.app/',
         });
         await Client.updateAlbumsOwned(album_id, person_id);
         res.json({
