@@ -10,6 +10,7 @@ const stripe = new Stripe(stripe_key, {
 });
 
 import Client from '../../models/clients';
+import Album from '../../models/albums';
 
 import { Response } from 'express';
 
@@ -20,6 +21,8 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
         console.log(req.headers);
         const album_id = req.body.album_id;
         const person_id = req.person.id;
+        const album = await Album.getAlbums(album_id);
+        const albumParsed = JSON.parse(JSON.stringify(album[0]));
         const session: any = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -28,7 +31,8 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
                     price_data: {
                         currency: 'usd',
                         product_data: {
-                            name: album_id,
+                            name: albumParsed[0].album_name,
+                            images: albumParsed[0].album_logo,
                         },
                         unit_amount: 500,
                     },
