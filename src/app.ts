@@ -22,7 +22,7 @@ app.use(function (req, res, next) {
 
 app.use(
     cors({
-        origin: 'https://photographers-client.vercel.app/*',
+        origin: ['https://photographers-client.vercel.app/*', 'https://photodrop-app-client.herokuapp.com/*'],
         methods: ['OPTIONS', 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
         allowedHeaders: [
             'Content-Type',
