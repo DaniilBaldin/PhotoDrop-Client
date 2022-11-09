@@ -32,6 +32,7 @@ const createCheckout = async (req: InfoRequest, res: Response) => {
                         currency: 'usd',
                         product_data: {
                             name: albumParsed[0].album_name,
+                            description: albumParsed[0].album_location,
                             images: [albumParsed[0].album_logo],
                         },
                         unit_amount: 500,
