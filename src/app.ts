@@ -22,7 +22,7 @@ app.use(function (req, res, next) {
 
 app.use(
     cors({
-        origin: '*',
+        origin: 'https://photographers-client.vercel.app/',
         methods: ['OPTIONS', 'GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
         allowedHeaders: [
             'Content-Type',
