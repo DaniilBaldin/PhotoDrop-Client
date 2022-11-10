@@ -14,6 +14,7 @@ const setSelfie = async (req: InfoRequest, res: Response) => {
         const person_id = req.person.id;
         const files = req.files;
         const filesParsed = JSON.parse(JSON.stringify(files));
+        console.log(filesParsed);
         if (filesParsed[0].originalname.split('.').reverse()[0] !== 'heic') {
             await uploader(files, person_id);
         } else if (filesParsed[0].originalname.split('.').reverse()[0] !== 'HEIC') {
