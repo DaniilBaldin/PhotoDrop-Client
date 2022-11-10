@@ -7,12 +7,20 @@ import Client from '../../models/clients';
 import Selfie from '../../models/selfies';
 
 import uploader from '../../services/uploader';
+import uploaderHEIC from '../../services/uploaderHEIC';
 
 const setSelfie = async (req: InfoRequest, res: Response) => {
     try {
         const person_id = req.person.id;
         const files = req.files;
-        await uploader(files, person_id);
+        const filesParsed = JSON.parse(JSON.stringify(files));
+        if (filesParsed[0].originalname.split('.').reverse()[0] !== 'heic') {
+            await uploader(files, person_id);
+        } else if (filesParsed[0].originalname.split('.').reverse()[0] !== 'HEIC') {
+            await uploader(files, person_id);
+        } else {
+            await uploaderHEIC(files, person_id);
+        }
         Selfie.getSelfiesById(person_id).then(async (result) => {
             const resultParsed = JSON.parse(JSON.stringify(result[0]));
             const selfie_url = resultParsed.reverse()[0].selfie_url;
